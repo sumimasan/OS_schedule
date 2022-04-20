@@ -137,7 +137,7 @@ def HPFschedulejob():
 
 def RR():
     print("-------------------------------------")
-    print("时间轮转")
+    print("RR算法")
     """initial time counting"""
     turnover_time = 0
     wait_time = 0
@@ -156,21 +156,25 @@ def RR():
     cur_time = first_job.reach_time
 
     while count>0:
+        """
+        if ready_queue is not empty,then pop the head of the queue to execute,
+        else there is no job in the ready queue,we need to get the next arriving job
+        """
         if len(ready_queue) > 0:
             cur_job = ready_queue.popleft()
         else:
             id = findEarlyJob(jobs)
             cur_job=jobs[id-1]
         cur_job.visit = 1
-        if cur_job.need_time>=time_slice:
-            cur_job.need_time -=time_slice
+
+        """executing process"""
+        cur_time=max(cur_time,cur_job.reach_time)
+        if cur_job.need_time >= time_slice:
+            # cur_job.need_time -=time_slice
             cur_time += time_slice
         else:
-            cur_time+=cur_job.need_time
-            cur_job.need_time-=time_slice
-
-        cur_time=max(cur_time,cur_job.reach_time)
-
+            cur_time += cur_job.need_time
+        cur_job.need_time -= time_slice
 
 
         for i in range(count):
@@ -186,7 +190,7 @@ def RR():
 
         if cur_job.need_time > 0:
             ready_queue.append(cur_job)
-            print(cur_job.num, "号作业执行了", 10)
+            print(cur_job.num, "号作业执行了", time_slice)
         else:
             print(cur_job.num, "号作业执行了", cur_job.need_time+time_slice)
             finish_time = cur_time
@@ -200,6 +204,7 @@ def RR():
                              turn_over_time= cur_job.turn_over_time,
                              weight_turn_over=cur_job.weight_turn_over)
             count -= 1
+
 
     print("平均等待时间：", wait_time / 7)
     print("平均周转时间：", turnover_time / 7)
