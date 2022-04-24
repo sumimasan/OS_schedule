@@ -48,27 +48,32 @@ def FCFSschedulejob():
     count = len(jobs)
     while count:
         id = findEarlyJob(jobs)  # find the earliest job
+        jobs[id-1].visit=1
         q.append(id)
         count-=1
     first_job =  jobs[q.popleft() - 1]
+    first_job.visit=1
     cur_time =first_job.reach_time
     finish_time = cur_time+first_job.need_time
     wait_time = 0
     turnover_time = first_job.need_time
+    weight_turn_over = (finish_time - first_job.reach_time) /first_job.need_time
 
-    print_finish_job(id= first_job.num,wait_time=wait_time,turn_over_time=turnover_time)
+    print_finish_job(id= first_job.num,wait_time=wait_time,turn_over_time=turnover_time,weight_turn_over=weight_turn_over)
 
     while len(q)>0:    # while the length of q is more than 0
         cur_job = jobs[q.popleft() - 1]
+        cur_job.visit=1
         cur_time =max(finish_time,cur_job.reach_time)
         wait_time += cur_time - cur_job.reach_time  # current time - reach time of job
         finish_time = cur_time+cur_job.need_time   # current time + need time
         turnover_time += finish_time-cur_job.reach_time # finish time  - reach time
-        weight_turn_over = (finish_time - cur_job.reach_time) / cur_job.need_time
-        print_finish_job(id=cur_job.num,wait_time= cur_time - cur_job.reach_time,turn_over_time=finish_time-cur_job.reach_time,weight_turn_over=weight_turn_over)
+        weight_turn_over+= (finish_time - cur_job.reach_time) / cur_job.need_time
+        print_finish_job(id=cur_job.num,wait_time= cur_time - cur_job.reach_time,turn_over_time=finish_time-cur_job.reach_time,weight_turn_over=(finish_time - cur_job.reach_time) / cur_job.need_time)
 
     print("平均周转时间：", turnover_time/7)
     print("平均等待时间：", wait_time/7)
+    print("平均带权周转时间：", weight_turn_over / 7)
     print("-------------------------------------")
 
 
@@ -106,6 +111,7 @@ def HPFschedulejob():
     for job in jobs:
         if not job.visit and job.reach_time<=finish_time:
             q.append(job)
+
 
 
 
@@ -213,6 +219,6 @@ def RR():
 
 
 if __name__ =="__main__":
-    # FCFSschedulejob()
-    #HPFschedulejob()
-    RR()
+    FCFSschedulejob()
+    # HPFschedulejob()
+    # RR()
