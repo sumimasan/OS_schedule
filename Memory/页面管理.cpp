@@ -1,97 +1,21 @@
-//#include<iostream>
-//#include<vector>
-//#include<algorithm>
-//using namespace std;
-//void menu();
-//void initial();
-//
-//int total = 100; // ÄÚ´æ×ÜÁ¿
-//int usedPage = 18; // Ê¹ÓÃµÄÄÚ´æ¿é
-//int remainPage = 82; // Ê£ÓàµÄÄÚ´æ¿é
-//int threadCnt = 0; // ½ø³Ì×ÜÊı
-//
-//vector<int> used;
-//vector<int> remain;
-//int main() {
-//	initial();
-//	while (true)
-//	{
-//		menu();
-//		cout << "ÇëÊäÈëÄúÒª½øĞĞµÄ²Ù×÷ £º" << endl;
-//		int input;
-//		cin >> input;
-//		switch (input)
-//		{
-//		case 1:
-//			;
-//			break;
-//		case 2:
-//			break;
-//		case 4:
-//			return 0;
-//		default:
-//			break;
-//		}
-//		
-//	}
-//	return 0;
-//}
-//
-//void initial() {
-//	int init[] = { 11,16,25,29,34,41,53,54,61,62,67,75,82,90,93,95,96,97 };
-//	cout << "³õÊ¼»¯½á¹ûÈçÏÂ£º" << endl;
-//	cout << "ÄÚ´æ×ÜÁ¿:" <<total<< endl;
-//	cout << "Ê£Óà¿Õ¼ä£º"<<remainPage << endl;
-//	printf("ÒÑÊ¹ÓÃµÄÄÚ´æ¿é£¨%d)\n", usedPage);
-//
-//	for (int i = 0;i <18;i++) {
-//		used.push_back(init[i]);
-//		cout << used[i] << " ";
-//	}
-//	printf("\n");
-//
-//
-//}
-//void menu() {
-//	cout << "´´½¨²Ëµ¥: " << endl;
-//	cout << "1.´´½¨½ø³Ì " << endl;
-//	cout << "2.½áÊø½ø³Ì " << endl;
-//	cout << "3.²é¿´ÄÚ´æ " << endl;
-//	cout << "4.ÍË³ö³ÌĞò " << endl;
-//}
-//
-//void CreateProcess() {
-//	cout << "ÇëÊäÈë½ø³ÌºÅ£¨Ğ¡ÓÚ100£© ºÍËùĞèÒ³Ãæ: ";
-//	int id;
-//	int needPage;
-//	cin >> id >> needPage;
-//	if (needPage<= remainPage) {
-//
-//		cout << "´´½¨½ø³Ì³É¹¦£¡" << endl;
-//	}
-//	else {
-//		cout << "´´½¨½ø³ÌÊ§°Ü£¡" << endl;
-//		cout << "µ±Ç°¿ÉÒÔÒ³ÃæÊı:" << remainPage << " Ğ¡ÓÚÉêÇëÒ³ÃæÊı" << needPage << endl;
-//	}
-//}
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 using namespace std;
 
-int N = 100;//ÄÚ´æ×ÜÁ¿ 
-int rest = 100;//Ê£Óà¿Õ¼ä¿éÊı 
-int procNum = 0;//½ø³Ì×ÜÊı
-bool st[200];//±íÊ¾¸Ã¿é¿Õ¼äÊÇ·ñ±»Ê¹ÓÃ
-int id[200];//±íÊ¾±»Ê¹ÓÃµÄÄÚ´æ¿éËùÊôÓÚµÄ½ø³Ìid
+int N = 100;//å†…å­˜æ€»é‡ 
+int rest = 100;//å‰©ä½™ç©ºé—´å—æ•° 
+int procNum = 0;//è¿›ç¨‹æ€»æ•°
+bool st[200];//è¡¨ç¤ºè¯¥å—ç©ºé—´æ˜¯å¦è¢«ä½¿ç”¨
+int id[200];//è¡¨ç¤ºè¢«ä½¿ç”¨çš„å†…å­˜å—æ‰€å±äºçš„è¿›ç¨‹id
 
-//²é¿´ÄÚ´æº¯Êı 
+//æŸ¥çœ‹å†…å­˜å‡½æ•° 
 void Query()
 {
-	printf("ÄÚ´æ×ÜÁ¿£º%d¿é, ", N);
-	printf("ÒÑÓÃ¿Õ¼ä£º%d¿é, ", N - rest);
-	printf("Ê£Óà¿Õ¼ä£º%d¿é, ", rest);
-	printf("½ø³Ì×ÜÊı£º%d¸ö\n", procNum);
-	printf("ÒÑÊ¹ÓÃµÄÄÚ´æ¿é(%d)£º\n", N - rest);
+	printf("å†…å­˜æ€»é‡ï¼š%då—, ", N);
+	printf("å·²ç”¨ç©ºé—´ï¼š%då—, ", N - rest);
+	printf("å‰©ä½™ç©ºé—´ï¼š%då—, ", rest);
+	printf("è¿›ç¨‹æ€»æ•°ï¼š%dä¸ª\n", procNum);
+	printf("å·²ä½¿ç”¨çš„å†…å­˜å—(%d)ï¼š\n", N - rest);
 	for (int i = 0;i < N;i++)
 	{
 		if (st[i]) printf("%d ", i);
@@ -104,7 +28,7 @@ void Alloc(int name, int num)
 {
 	if (num > rest)
 	{
-		puts("ÄÚ´æ¿Õ¼ä²»×ã£¬½ø³Ì´´½¨Ê§°Ü£¡");
+		puts("å†…å­˜ç©ºé—´ä¸è¶³ï¼Œè¿›ç¨‹åˆ›å»ºå¤±è´¥ï¼");
 		return;
 	}
 
@@ -119,7 +43,7 @@ void Alloc(int name, int num)
 		}
 	}
 	procNum++;
-	puts("´´½¨½ø³Ì³É¹¦£¡");
+	puts("åˆ›å»ºè¿›ç¨‹æˆåŠŸï¼");
 }
 
 void Recycle(int name)
@@ -135,17 +59,17 @@ void Recycle(int name)
 			rest++;
 		}
 	}
-	if (!flg) puts("¸Ã½ø³Ì²»´æÔÚ£¡");
-	else puts("½ø³ÌÒÑ½áÊø£¡"), procNum--;
+	if (!flg) puts("è¯¥è¿›ç¨‹ä¸å­˜åœ¨ï¼");
+	else puts("è¿›ç¨‹å·²ç»“æŸï¼"), procNum--;
 }
 
 void Menu()
 {
-	puts("\n²Ù×÷²Ëµ¥£º");
-	puts("1. ´´½¨½ø³Ì");
-	puts("2. ½áÊø½ø³Ì");
-	puts("3. ²é¿´ÄÚ´æ");
-	puts("4. ÍË³ö³ÌĞò");
+	puts("\næ“ä½œèœå•ï¼š");
+	puts("1. åˆ›å»ºè¿›ç¨‹");
+	puts("2. ç»“æŸè¿›ç¨‹");
+	puts("3. æŸ¥çœ‹å†…å­˜");
+	puts("4. é€€å‡ºç¨‹åº");
 }
 
 void init()
@@ -159,25 +83,25 @@ void init()
 int main()
 {
 	init();
-	puts("³õÊ¼»¯½á¹ûÈçÏÂ£º");
+	puts("åˆå§‹åŒ–ç»“æœå¦‚ä¸‹ï¼š");
 	Query();
 	while (true)
 	{
 		Menu();
 		int op;
-		printf("ÇëÊäÈëÄúÒª½øĞĞµÄ²Ù×÷£º");
+		printf("è¯·è¾“å…¥æ‚¨è¦è¿›è¡Œçš„æ“ä½œï¼š");
 		scanf("%d", &op);
 		if (op == 1)
 		{
 			int name, num;
-			printf("ÇëÊäÈë½ø³ÌºÅ£¨Ğ¡ÓÚ100£©ºÍËùĞèÒ³Ãæ£º");
+			printf("è¯·è¾“å…¥è¿›ç¨‹å·ï¼ˆå°äº100ï¼‰å’Œæ‰€éœ€é¡µé¢ï¼š");
 			scanf("%d%d", &name, &num);
 			Alloc(name, num);
 		}
 		else if (op == 2)
 		{
 			int name;
-			printf("ÇëÊäÈë½ø³ÌºÅ£º");
+			printf("è¯·è¾“å…¥è¿›ç¨‹å·ï¼š");
 			scanf("%d", &name);
 			Recycle(name);
 		}
